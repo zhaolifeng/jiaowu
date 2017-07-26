@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwTeacherAttendanceDao" >
+    <sql id="Base_Column_List" >
+        id ,campus_id,classes_id,teacher_id,note,create_time
+    </sql>
+    <insert id="addTeacherAttendance" parameterType="com.shenlan.domain.bo.JwTeacherAttendance" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO jw_attendance_teacher(campus_id,classes_id,teacher_id,note,create_time)
+        VALUES(#{campusId},#{classesId},#{teacherId},#{note},now())
+    </insert>
+
+    <select id="findTeacherAttendances" parameterType="JwTeacherAttendance" resultType="JwTeacherAttendance">
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM jw_attendance_teacher
+        WHERE  1=1
+
+        <if test="teacherId !=null">
+            and teacher_id=#{teacherId}
+        </if>
+
+        <if test="classesId !=null">
+            and classes_id=#{classesId}
+        </if>
+
+        <if test="campusId !=null">
+            and campus_id=#{campusId}
+        </if>
+    </select>
+</mapper>

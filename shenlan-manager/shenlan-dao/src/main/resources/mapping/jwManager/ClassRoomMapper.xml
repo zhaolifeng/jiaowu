@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwClassRoomDao" >
+  
+  <sql id="Base_Column_List" >
+      id ,campus_id,name,total,status
+  </sql>
+
+  <insert id="addClassRoom" parameterType="com.shenlan.domain.bo.JwClassRoom" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_classroom(campus_id,name,total,update_time,create_time)
+	 VALUES(#{campusId},#{name},#{total},now(),now())
+  </insert>
+
+  <select id="findClassesRoom"  parameterType="com.shenlan.domain.bo.JwClassRoom" resultType="com.shenlan.domain.bo.JwClassRoom">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_classroom
+    WHERE 1=1
+    <if test="campusId != null">
+      and campus_id = #{campusId}
+    </if>
+    <if test="name != null">
+      and name = #{name}
+    </if>
+
+    <if test="total != null">
+      and total = #{total}
+    </if>
+
+    <if test="status != -1">
+      and status = #{status}
+    </if>
+
+    ORDER  by id DESC
+  </select>
+
+  <select id="getClassesRoom" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwClassRoom">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_classroom
+    WHERE  id=#{id}
+  </select>
+
+  <update id="updateClassesRoom" parameterType="com.shenlan.domain.bo.JwStudentClass">
+    UPDATE jw_classroom
+    SET
+      total=#{total},name=#{name},status=#{status}
+    WHERE  id=#{id}
+  </update>
+</mapper>

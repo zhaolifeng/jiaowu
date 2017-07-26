@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.system.SystemMenuDao" >
+  
+  <sql id="Base_Column_List" >
+    id, name, alias, sort, parent_id, parent_ids, url, icon, is_show, permission, create_time, 
+    is_valid, update_time
+  </sql>
+  
+  <select id="findAllMenusByRoleId" resultType="SystemMenu" parameterType="Long">
+	 SELECT 
+		 m.*
+		 FROM SYSTEM_Role r
+		 left join SYSTEM_Role_menu rm
+		 on r.id = rm.role_id
+	   LEFT JOIN SYSTEM_menu m
+	   on  m.id = rm.menu_id 
+	 where r.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="getAllMenus" resultType="SystemMenu">
+	 SELECT 
+		<include refid="Base_Column_List" />
+	 FROM SYSTEM_MENU 
+	 where is_valid = 1
+  </select>
+  
+   <select id="selectById" resultType="SystemMenu" parameterType="Long">
+	 SELECT 
+		<include refid="Base_Column_List" />
+	 FROM SYSTEM_MENU 
+	 where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="findMenusByUser" resultType="SystemMenu" parameterType="String">
+	 SELECT 
+		DISTINCT M.*
+	 FROM SYSTEM_USER U
+	 	LEFT JOIN SYSTEM_ROLE_USER RU
+   		ON U.ID = RU.USER_ID 
+	 	LEFT JOIN SYSTEM_ROLE_MENU RM
+	 	ON  RU.ROLE_ID = RM.ROLE_ID
+	 	LEFT JOIN SYSTEM_MENU M
+	 	ON RM.MENU_ID = M.ID
+	 WHERE 1 = 1 
+	 	AND M.IS_VALID = 1 
+		AND	U.USERNAME = #{username}
+	 ORDER BY M.SORT ASC
+  </select>
+  
+   <select id="findRootMenusByUser" resultType="SystemMenu" parameterType="String">
+	
+	  SELECT 
+		DISTINCT M.*
+	 FROM SYSTEM_USER U
+	 	LEFT JOIN SYSTEM_ROLE_USER RU
+   		ON U.ID = RU.USER_ID 
+	 	LEFT JOIN SYSTEM_ROLE_MENU RM
+	 	ON  RU.ROLE_ID = RM.ROLE_ID
+	 	LEFT JOIN SYSTEM_MENU M
+	 	ON RM.MENU_ID = M.ID
+	 WHERE 1 = 1 
+	 	AND M.IS_VALID = 1 
+		AND	U.USERNAME = #{username}
+		AND M.PARENT_ID = -1
+	 ORDER BY M.SORT ASC
+  </select>
+  
+  <insert id="addSystemMenu" parameterType="SystemMenu" useGeneratedKeys="true" keyProperty="id">
+    insert into system_menu ( name, alias, 
+      sort, parent_id, parent_ids, 
+      url, sicon,icon, is_show, 
+      permission, create_time, is_valid, 
+      update_time)
+    values (#{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{sicon,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR}, #{isShow,jdbcType=INTEGER}, 
+      #{permission,jdbcType=VARCHAR}, now(), #{isValid,jdbcType=INTEGER}, 
+      now())
+  </insert>
+  
+  <delete id="deleteSystemMenu" parameterType="Long" >
+    delete from system_menu
+	  where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <update id="updateSystemMenu" parameterType="SystemMenu" >
+	 update system_menu
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="parentIds != null" >
+        parent_ids = #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+       <if test="sicon != null" >
+        sicon = #{sicon,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid,jdbcType=INTEGER},
+      </if>
+        update_time =  now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

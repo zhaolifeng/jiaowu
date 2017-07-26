@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwCourseDao" >
+  
+  <sql id="Base_Column_List" >
+      id ,course_name,course_content,course_methods,course_period,course_status,update_time,create_time
+  </sql>
+
+  <insert id="addCourse" parameterType="com.shenlan.domain.bo.JwCourse" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_course(course_name,course_content,course_methods,course_period,course_status,update_time,create_time)
+	 VALUES(#{courseName},#{courseContent},#{courseMethods},#{coursePeriod},#{courseStatus},now(),now())
+  </insert>
+
+  <select id="findCourse" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwCourse">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_course ORDER  by id DESC
+  </select>
+
+  <select id="getCourse" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwCourse">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_course
+    WHERE  id=#{id}
+  </select>
+
+  <update id="updateCourse" parameterType="com.shenlan.domain.bo.JwCourse">
+    update jw_course
+    set course_name=#{courseName},course_methods=${courseMethods}, course_period=${coursePeriod},course_status=#{courseStatus},update_time=now()
+    where id=#{id}
+  </update>
+</mapper>

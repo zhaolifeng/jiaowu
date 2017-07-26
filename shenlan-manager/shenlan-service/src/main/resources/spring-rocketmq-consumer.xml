@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+
+        <!-- 监听实现 -->
+	    <bean id="rocketMqListener" class="com.shenlan.service.rocketmq.RocketMqMessageListenerImpl"></bean>
+	    <!-- 监听配置 -->
+	    <bean id="consumer" class="com.shenlan.service.rocketmq.Consumer" init-method="init">
+	        <property name="consumerGroup" value="${rocketmq.consumerGroup}"/>
+	        <property name="namesrvAddr" value="${rocketmq.consumerNamesrvAddr}" />
+			<property name="topics">
+				<list value-type="java.lang.String">
+					<value>PVTOPIC</value>
+					<value>UVTOPIC</value>
+				</list>
+			</property>
+	        <!--<property name="topic" value="${rocketmq.consumerTopic}"/>-->
+	        <!--<property name="tags" value="${rocketmq.consumerTags}"/>-->
+	        <property name="rocketMqMessageListener" ref="rocketMqListener"/>
+	    </bean>
+</beans>

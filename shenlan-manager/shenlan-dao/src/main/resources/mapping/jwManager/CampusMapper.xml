@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwCampusDao" >
+  
+  <sql id="Base_Column_List" >
+    id, name, address, rooms, tel, manager, campus_type,campus_stauts
+  </sql>
+
+
+  <insert id="addCampus" parameterType="com.shenlan.domain.bo.JwCampus" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_campus(name, address, rooms, tel, manager, campus_type,campus_stauts,update_time,create_time)
+	 VALUES(#{name},#{address},#{rooms},#{tel},#{manager},#{campusType,jdbcType=VARCHAR},#{campusStauts},now(),now())
+  </insert>
+
+  <select id="findCampus" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwCampus">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_campus
+  </select>
+
+  <select id="getCampus" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwCampus">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_campus
+    WHERE  id=#{campusId}
+  </select>
+
+  <update id="updateCampus" parameterType="com.shenlan.domain.bo.JwCampus">
+    update jw_campus
+    set name=#{name}, address=#{address}, rooms=#{rooms}, tel=#{tel}, manager=#{manager}, campus_type=#{campusType},campus_stauts=#{campusStauts},update_time=now()
+    where id=#{id}
+  </update>
+</mapper>

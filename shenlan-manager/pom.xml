@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress MavenModelInspection -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>shenlan.manager</groupId>
+  <artifactId>shenlan-manager</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>shenlan-manager</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  
+  <modules>
+  	<module>shenlan-domain</module>
+  	<module>shenlan-common</module>
+    <module>shenlan-dao</module>
+    <module>shenlan-api</module>
+    <module>shenlan-service</module>
+    <module>shenlan-web</module>
+  </modules>
+  <build>
+    <defaultGoal>package</defaultGoal>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+      <profile>
+        <id>dev</id>
+        <properties>
+          <log.level>DEBUG,Console,File</log.level>
+          <!--文件资源路径-->
+          <resource.url>/var/www/html/</resource.url>
+          <imageResource.url>http://139.217.24.107:8099/</imageResource.url>
+          <!--consumer-->
+          <rocketmq.consumerGroup>ConsumerGroupName</rocketmq.consumerGroup>
+          <rocketmq.consumerNamesrvAddr>139.217.24.107:9876;139.217.23.204:9876</rocketmq.consumerNamesrvAddr>
+          <!--producer-->
+          <rocketmq.producerGroup>ProducerGroupName</rocketmq.producerGroup>
+          <rocketmq.producerNamesrvAddr>139.217.24.107:9876;139.217.23.204:9876</rocketmq.producerNamesrvAddr>
+          <rocketmq.producerInstanceName>Producer</rocketmq.producerInstanceName>
+          <!--jdbc-->
+          <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+          <jdbc.url>jdbc:mysql://120.77.77.166:3306/shenlan_db</jdbc.url>
+          <jdbc.username>root</jdbc.username>
+          <jdbc.password>Abc123456789</jdbc.password>
+          <!--数据库连接数-->
+          <dataSource.initialSize>20</dataSource.initialSize>
+          <dataSource.maxActive>20</dataSource.maxActive>
+          <dataSource.maxIdle>20</dataSource.maxIdle>
+          <dataSource.minIdle>20</dataSource.minIdle>
+        </properties>
+      </profile>
+      <profile>
+        <id>test</id>
+        <properties>
+          <log.level>DEBUG,Console,File</log.level>
+          <!--文件资源路径-->
+          <resource.url>/var/www/html/</resource.url>
+          <imageResource.url>http://139.217.24.107:8099/</imageResource.url>
+          <!--consumer-->
+          <rocketmq.consumerGroup>ConsumerGroupName</rocketmq.consumerGroup>
+          <rocketmq.consumerNamesrvAddr>139.217.24.107:9876;139.217.23.204:9876</rocketmq.consumerNamesrvAddr>
+          <!--producer-->
+          <rocketmq.producerGroup>ProducerGroupName</rocketmq.producerGroup>
+          <rocketmq.producerNamesrvAddr>139.217.24.107:9876;139.217.23.204:9876</rocketmq.producerNamesrvAddr>
+          <rocketmq.producerInstanceName>Producer</rocketmq.producerInstanceName>
+          <!--jdbc-->
+          <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+          <!--<jdbc.url>jdbc:mysql://120.77.77.166:3306/shenlan_db</jdbc.url>-->
+          <!--<jdbc.username>root</jdbc.username>-->
+          <!--<jdbc.password>Abc123456789</jdbc.password>-->
+
+          <jdbc.url>jdbc:mysql://114.115.214.18:3306/i_share_umbrella</jdbc.url>
+          <jdbc.username>znlt</jdbc.username>
+          <jdbc.password>Abc!123456</jdbc.password>
+
+          <!--数据库连接数-->
+          <dataSource.initialSize>20</dataSource.initialSize>
+          <dataSource.maxActive>100</dataSource.maxActive>
+          <dataSource.maxIdle>20</dataSource.maxIdle>
+          <dataSource.minIdle>20</dataSource.minIdle>
+        </properties>
+      </profile>
+      <profile>
+        <id>production</id>
+        <properties>
+          <log.level>INFO,File</log.level>
+          <!--文件资源路径-->
+          <resource.url>/opt/soft/nginx/html/</resource.url>
+          <imageResource.url>http://www.dongxingji.cn/</imageResource.url>
+          <!--consumer-->
+          <rocketmq.consumerGroup>ConsumerGroupName</rocketmq.consumerGroup>
+          <rocketmq.consumerNamesrvAddr>172.28.200.25:9876;172.28.200.26:9876</rocketmq.consumerNamesrvAddr>
+          <!--producer-->
+          <rocketmq.producerGroup>ProducerGroupName</rocketmq.producerGroup>
+          <rocketmq.producerNamesrvAddr>172.28.200.25:9876;172.28.200.26:9876</rocketmq.producerNamesrvAddr>
+          <rocketmq.producerInstanceName>Producer</rocketmq.producerInstanceName>
+          <!--jdbc-->
+          <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+          <!--<jdbc.url>jdbc:mysql://120.77.77.166:3306/shenlan_db</jdbc.url>-->
+          <!--<jdbc.username>root</jdbc.username>-->
+          <!--<jdbc.password>Abc123456789</jdbc.password>-->
+
+          <jdbc.url>jdbc:mysql://114.115.214.18:3306/shenlan_db</jdbc.url>
+          <jdbc.username>znlt</jdbc.username>
+          <jdbc.password>Abc!123456</jdbc.password>
+
+
+          <!--数据库连接数-->
+          <dataSource.initialSize>20</dataSource.initialSize>
+          <dataSource.maxActive>100</dataSource.maxActive>
+          <dataSource.maxIdle>20</dataSource.maxIdle>
+          <dataSource.minIdle>20</dataSource.minIdle>
+        </properties>
+      </profile>
+  </profiles>
+</project>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwCourseTeacherDao" >
+  <sql id="Base_Column_List" >
+      id ,cosuer_name,course_id,teacher_id
+  </sql>
+
+  <insert id="addBatchCourseTeacher" parameterType="java.util.List">
+  INSERT INTO jw_course_teacher (course_id,teacher_id,update_time,create_time)
+  VALUES
+  <foreach collection="list" item="item" index="index" separator="," >
+    (#{item.courseId},#{item.teacherId},now(),now())
+  </foreach>
+  </insert>
+
+  <insert id="addCourseTeacher" parameterType="com.shenlan.domain.bo.JwCourseTeacher" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO jw_course_teacher (course_id,teacher_id,update_time,create_time)
+    VALUES  (#{courseId},#{teacherId},now(),now())
+  </insert>
+
+  <delete id="deletBatchCourseTeacher"  parameterType="java.util.List">
+    DELETE FROM jw_course_teacher  WHERE teacher_id in
+    <foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+      #{item.teacherId}
+    </foreach>
+  </delete>
+
+  <select id="findCourseTeacherName" resultType="com.shenlan.domain.bo.JwCourseTeacher">
+       SELECT tt.*,s.course_name from (SELECT
+          t.id AS teacher_id,
+          t. NAME AS teacher_name
+
+      FROM
+          jw_teacher t
+      WHERE t.teacher_status != 0 ) tt
+      LEFT JOIN (
+          SELECT
+              c.course_name,
+              c.id AS course_id,
+              tc.teacher_id AS teacher_id
+          FROM
+              jw_course c
+          LEFT JOIN jw_course_teacher tc ON c.id = tc.course_id
+      ) s ON tt.teacher_id = s.teacher_id
+
+  </select>
+
+  <select id="findCourseTeacher" parameterType="com.shenlan.domain.bo.JwCourseTeacher" resultType="com.shenlan.domain.bo.JwCourseTeacher">
+    SELECT
+    c.course_name,c.id as course_id,t.teacher_id,c.course_period
+    FROM  jw_course c LEFT  JOIN (SELECT tc.course_id,tc.teacher_id from jw_course_teacher tc   where tc.teacher_id=#{teacherId}) t  on c.id=t.course_id
+    WHERE  c.course_status=1
+  </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwStudentAttendanceDao" >
+  <sql id="Base_Column_List" >
+      id ,classes_id,student_id,course_id,create_time,note
+  </sql>
+  <insert id="addStudentAttendance" parameterType="com.shenlan.domain.bo.JwStudentAttendance" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_attendance_student(classes_id,student_id,course_id,create_time,note)
+	 VALUES(#{classesId},#{studentId},#{courseId},#{createTime},#{note})
+  </insert>
+
+    <select id="findStudentAttendances"  parameterType="com.shenlan.domain.bo.JwStudentAttendance" resultType="com.shenlan.domain.bo.JwStudentAttendance">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM jw_attendance_student
+        WHERE 1=1
+        <if test="studentId !=null">
+            and student_id=#{studentId}
+        </if>
+        <if test="classesId !=null">
+            and classes_id=#{classesId}
+        </if>
+
+        <if test="courseId !=null">
+            and course_id=#{courseId}
+        </if>
+
+        <if test="createTime !=null">
+            and DATE_FORMAT(create_time, '%Y-%m-%d')=DATE_FORMAT(now(), '%Y-%m-%d')
+        </if>
+    </select>
+</mapper>

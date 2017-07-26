@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.userCenter.UserInfoDao">
+
+    <sql id="Base_Column_List">
+        id, user_name, PASSWORD, head_portrait, nickname, total_integral, NAME, sex, age, birthday,
+        region, card_type, card_no, mobile, check_mobile, phone, mail, ADDRESS, zip_code, login_status,
+        imei, STATUS, platform, user_level, login_count, create_time, upate_time, remark
+    </sql>
+
+    <!-- 根据id查询用户信息 -->
+    <select id="selectById" resultType="UserInfo" parameterType="Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM easto_user_info
+        WHERE id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByUser" resultType="UserInfo" parameterType="UserInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM easto_user_info U
+        WHERE 1 = 1
+        <if test="createTime == null or createTime == '' and upateTime == null or upateTime == ''">
+        and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(create_time)
+        </if>
+        <if test="userName != null and userName != ''">
+            and U.user_name like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="platform != null and platform != ''">
+            and U.platform=#{platform,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and U.status=#{status,jdbcType=INTEGER}
+        </if>
+        <if test="checkMobile != null and checkMobile != ''">
+            and U.check_mobile=#{checkMobile,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{createTime},'%Y-%m-%d')
+        </if>
+        <if test="upateTime != null and upateTime != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{upateTime},'%Y-%m-%d')
+        </if>
+        order by U.id DESC
+    </select>
+
+    <select id="queryUsers" resultType="UserInfo" parameterType="UserInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM easto_user_info U
+        WHERE 1 = 1
+        <if test="userName != null and userName != ''">
+            and U.user_name like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="platform != null and platform != ''">
+            and U.platform=#{platform,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and U.status=#{status,jdbcType=INTEGER}
+        </if>
+        <if test="checkMobile != null and checkMobile != ''">
+            and U.check_mobile=#{checkMobile,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{createTime},'%Y-%m-%d')
+        </if>
+        <if test="upateTime != null and upateTime != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{upateTime},'%Y-%m-%d')
+        </if>
+        order by U.create_time desc
+    </select>
+
+    <select id="queryUser" resultType="UserInfo" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM easto_user_info U
+        WHERE 1 = 1
+        <if test="userName != null and userName != ''">
+            and U.user_name like '% #{text}%'
+        </if>
+        <if test="platform != null and platform != ''">
+            and U.platform=#{platform,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null and status != ''">
+            and U.status=#{status,jdbcType=INTEGER}
+        </if>
+        <if test="txtBeginDate != null and txtBeginDate != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{txtBeginDate},'%Y-%m-%d')
+        </if>
+        <if test="txtEndDate != null and txtEndDate != ''">
+            and DATE_FORMAT(U.create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{txtEndDate},'%Y-%m-%d')
+        </if>
+        <!--
+                    DATE_SUB(CURDATE(), INTERVAL 1 DAY) &lt;= date(create_time)
+        -->
+        order by U.id DESC
+    </select>
+
+    <update id="updateUserInfo" parameterType="UserInfo">
+        UPDATE easto_user_info
+        SET
+        <if test="status != null">
+            status=#{status}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <select id="queryTotalUserCount" resultType="Integer">
+        SELECT count(*)
+        FROM easto_user_info
+    </select>
+
+
+    <select id="queryForbiddenTotalUserCount" resultType="Integer">
+        SELECT count(*)
+        FROM easto_user_info
+        WHERE status = 0
+    </select>
+
+    <!-- 按天查询每天新增用户数 -->
+    <select id="queryUserDayCount" parameterType="java.util.Map" resultType="java.util.Map">
+        select count(1) user_day_count,date_format(create_time,'%Y-%m-%d') create_date
+        from easto_user_info
+        where 1=1
+        <if test="timeBegin != null">
+            and date_format(create_time,'%Y-%m-%d') &gt;= date_format(#{timeBegin} ,'%Y-%m-%d')
+        </if>
+        <if test="timeEnd != null">
+            and date_format(create_time,'%Y-%m-%d') &lt;= date_format(#{timeEnd},'%Y-%m-%d')
+        </if>
+        group by date_format(create_time,'%Y-%m-%d');
+    </select>
+
+    <!-- 查询用户的累计数量，按天统计  -->
+    <select id="queryUserDayCounts" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        (select sum(user_day_count)
+        from(select count(1) user_day_count,date_format(create_time,'%Y-%m-%d') create_date
+        from easto_user_info
+        group by date_format(create_time,'%Y-%m-%d')
+        order by date_format(create_time,'%Y-%m-%d')) tmp
+        where t.create_date>=tmp.create_date
+        ) user_day_counts,
+        t.user_day_count user_day_counts,t.create_date create_date
+        from
+        (select count(1) user_day_count,date_format(create_time,'%Y-%m-%d') create_date
+        from easto_user_info
+        group by date_format(create_time,'%Y-%m-%d')
+        order by date_format(create_time,'%Y-%m-%d')) t
+        where 1=1
+        <if test="timeBegin">
+            and t.create_date &gt;= date_format(#{timeBegin},'%Y-%m-%d')
+        </if>
+        <if test="timeEnd">
+            and t.create_date &lt;= date_format(#{timeEnd},'%Y-%m-%d')
+        </if>
+    </select>
+
+</mapper>

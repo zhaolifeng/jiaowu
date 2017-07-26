@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwTeacherDao" >
+  <sql id="Base_Column_List" >
+      id ,name,teacher_no,sex,age,educate,mobile,wechat,teacher_type,teacher_status
+  </sql>
+  <insert id="addTeacher" parameterType="com.shenlan.domain.bo.JwTeacher" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_teacher(name,sex,age,educate,mobile,wechat,teacher_type,teacher_status,update_time,create_time)
+	 VALUES(#{name},#{sex},#{age},#{educate},#{mobile},#{wechat},#{teacherType},#{teacherStatus},now(),now())
+  </insert>
+
+  <select id="findTeacher" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwTeacher">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_teacher
+
+    ORDER  by id DESC
+  </select>
+
+  <select id="findTeacherByCondtion" parameterType="java.util.Map" resultType="com.shenlan.domain.bo.JwTeacher">
+    SELECT
+    <include refid="Base_Column_List" />
+    from   jw_teacher jt
+    where 1=1
+    AND
+    jt.id
+    in (select c.teacher_id from jw_course_teacher c LEFT JOIN jw_campus_teacher t on c.teacher_id =t.teacher_id where c.course_id=#{courseId} and t.campus_id=#{campusId})
+
+    <if test="teacherStatus !=null">
+      and jt.teacher_status !=#{teacherStatus}
+    </if>
+  </select>
+
+
+  <select id="getTeacher" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwTeacher">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_teacher
+    WHERE  id=#{id}
+  </select>
+
+  <select id="findTeacheByclassesId" parameterType="Map" resultType="Map">
+    SELECT  t.id ,t.name,t.teacher_no as teacherNo,tt.classes_id as classesId from ( select cc.teacher_id AS teacher_id,cc.classes_id AS classes_id from jw_classes_configure cc where  1=1
+    <if test="classesId != null">
+      and  cc.classes_id=#{classesId}
+    </if>
+    <if test="campusId != null">
+      and  cc.classes_id in (SELECT id from jw_classes where campus_id=#{campusId})
+    </if>
+    ) tt  LEFT JOIN  jw_teacher t  on t.id=tt.teacher_id WHERE t.teacher_status !=0
+  </select>
+
+  <update id="updateTeacher" parameterType="com.shenlan.domain.bo.JwTeacher">
+    update jw_teacher
+    set name=#{name},teacher_no=#{teacherNo},sex=${sex}, age=${age},educate=#{educate},mobile=#{mobile},wechat=#{wechat},teacher_type=#{teacherType},teacher_status=#{teacherStatus},update_time=now()
+    <if test="attendanceCount !=null or attendanceCount !=0">
+      ,attendance_count=#{attendanceCount}
+    </if>
+    where id=#{id}
+  </update>
+</mapper>

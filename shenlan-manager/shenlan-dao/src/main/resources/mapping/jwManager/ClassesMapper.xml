@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwClassesDao" >
+  
+  <sql id="Base_Column_List" >
+      id ,classes_name,campus_id,course_id,fee,campus_id,create_time,update_time
+  </sql>
+
+  <insert id="addClasses" parameterType="com.shenlan.domain.bo.JwClasses" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_classes(classes_name,campus_id,course_id,fee,create_time,update_time)
+	 VALUES(#{classesName},#{campusId},#{courseId},#{fee},now(),now())
+  </insert>
+
+  <select id="findClasses"  resultType="com.shenlan.domain.bo.JwClasses">
+    SELECT classes.id ,classes.classes_name,classes.campus_id,classes.course_id,classes.fee,course.course_name,course.course_period
+    FROM jw_classes classes LEFT JOIN jw_course course on classes.course_id=course.id
+    ORDER  by classes.id DESC
+  </select>
+
+  <select id="findClassesByCondtion"  parameterType="com.shenlan.domain.bo.JwClasses" resultType="com.shenlan.domain.bo.JwClasses">
+    SELECT classes.id ,classes.classes_name,classes.campus_id,classes.course_id,classes.fee,course.course_name,course.course_period
+    FROM jw_classes classes LEFT JOIN jw_course course on classes.course_id=course.id where classes.campus_id=#{campusId}
+  </select>
+
+  <select id="getClasses" parameterType="java.lang.Integer" resultType="com.shenlan.domain.bo.JwClasses">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_classes
+    WHERE  id=#{id}
+  </select>
+</mapper>

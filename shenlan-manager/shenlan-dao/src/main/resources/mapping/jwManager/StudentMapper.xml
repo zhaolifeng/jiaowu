@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwStudentDao" >
+  <sql id="Base_Column_List" >
+      id ,name,student_no,campus_id,attendance_count,sex,age,birthday,school,grade,linkman,tel,update_time,create_time
+  </sql>
+
+  <insert id="addStudent" parameterType="com.shenlan.domain.bo.JwStudent" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_student(name,campus_id,sex,age,birthday,school,grade,linkman,tel,update_time,create_time)
+	 VALUES(#{name},#{campusId},#{sex},#{age},#{birthday},#{school},#{grade},#{linkman},#{tel},now(),now())
+  </insert>
+
+  <select id="findStudent" parameterType="com.shenlan.domain.bo.JwStudent" resultType="com.shenlan.domain.bo.JwStudent">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_student
+    WHERE 1=1
+    <if test='name!=null'>
+      and name like CONCAT('%',#{name},'%')
+    </if>
+    ORDER by id desc
+  </select>
+
+  <select id="getStudent" parameterType="com.shenlan.domain.bo.JwStudent" resultType="com.shenlan.domain.bo.JwStudent">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM jw_student
+    WHERE  id=#{id}
+  </select>
+
+  <update id="updateStudent" parameterType="com.shenlan.domain.bo.JwStudent">
+    update jw_student
+    set name=#{name},student_no=#{studentNo},campus_id=#{campusId},sex=${sex}, age=${age},birthday=#{birthday},school=#{school},grade=#{grade},linkman=#{linkman},tel=#{tel},update_time=now()
+    <if test="attendanceCount !=null or attendanceCount !=0">
+      ,attendance_count=#{attendanceCount}
+    </if>
+    where id=#{id}
+  </update>
+</mapper>

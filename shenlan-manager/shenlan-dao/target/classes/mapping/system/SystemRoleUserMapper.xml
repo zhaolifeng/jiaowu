@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.system.SystemRoleUserDao" >
+ 
+  <sql id="Base_Column_List" >
+    id, user_id, role_id, create_time, update_time
+  </sql>
+  
+   <insert id="batchAdd" parameterType="SystemRoleUser" useGeneratedKeys="true" keyProperty="id">
+	insert into system_role_user (user_id, role_id, 
+      create_time, update_time)
+    values ( #{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, now(), now())
+	</insert>
+  
+   <update id="batchUpdate" parameterType="SystemRoleUser">
+		update system_role_user
+	    set user_id = #{userId,jdbcType=INTEGER},
+	        role_id = #{roleId,jdbcType=INTEGER},
+	        update_time = now()
+	    where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	 <!--<delete id="delete" parameterType="java.util.List" >
+	    delete from system_role_user
+		   <where>
+				ID IN
+				<foreach collection="array" item="item" index="index"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</where>
+ 	 </delete> -->
+  
+	 <delete id="delAllRoleUsersByUserId" parameterType="Long" >
+		    delete from system_role_user
+			   where user_id = #{id,jdbcType=INTEGER}
+	  </delete>
+	  
+</mapper>

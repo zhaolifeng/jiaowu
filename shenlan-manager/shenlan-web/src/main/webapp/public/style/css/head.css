@@ -1,0 +1,150 @@
+ body{
+      padding:0;
+	  margin:0 auto;
+	  background-color:#DFE6E8;
+   }
+  .main{
+     margin:0 auto;
+	 background-color:#FFF;
+	 width:950px;
+	 font-size: 16px;
+	 
+  }
+  .nav0{
+	  background:url(../images/nav0_bg.gif); 
+	  height:78px;
+  }
+  
+  .nav1{
+     background:url(../images/nav-bg.gif) repeat;
+  }  
+  a{
+     cursor:pointer;
+     text-decoration:none;
+  }
+  a img{
+     border:0px;
+  }
+  a:hover{
+   	 text-decoration:none;
+  }
+  a:focus img { 
+	  border: 0px;
+	  text-decoration: none;
+  } 
+  .menu{
+	  padding-left:100px;
+	  height:43px; 
+	  position:relative;
+  }
+  .menu_child{
+	  float:left;
+	  display:inline;
+	  position:relative
+  }
+  .menu_child1{
+	  position:absolute;
+	  top:43px; left:100px;
+	  display:none;
+  }
+  
+  .menu_child2{
+	  position:absolute;
+	  top:43px; left:180px;
+	  display:none;
+  }
+  
+  .menu_child3{
+	  position:absolute;
+	  top:43px; left:260px;
+	  display:none;
+  }
+  
+  .menu_child4{
+	  position:absolute;
+	  top:43px; left:340px;
+	  display:none;
+  }
+   
+  .zcnew{
+	  background:url(../images/button.gif) no-repeat; 
+	  height:35px; 
+	  width:85px;
+	  display:block;  
+	  text-decoration:none; 
+	  text-align:center; 
+	  line-height:29px; 
+	  color:#00FF00
+  }
+  
+  .zcnewb{
+	  background:url(../images/button.gif) no-repeat; 
+	  height:35px;
+	  width:85px;
+	  border: none;
+	  color:#00FF00;
+	  line-height:29px;
+	  font-size:13px;
+	  cursor: pointer;
+	  
+	  
+  }
+  
+  .dianji{
+	  float:left; 
+	  display:inline; 
+	  padding-left:20px;
+	  padding-top:14px; 
+	  color:#99FF00;
+	  font-size:15px;
+	  width: 280px
+	  
+  }
+  .nav_login{
+      float:left; 
+      display:inline; 
+      margin-left:20px;
+      padding-top:14px; 
+      color:#99FF00
+  }
+  
+  .nav_register{
+      float:left; 
+      display:inline; 
+      padding-left:20px;
+      padding-top:14px; 
+      color:#99FF00
+  }
+.zcnew:hover{ text-decoration:none;}
+ .addAd{
+	  background:url(../images/addAd.gif) no-repeat; 
+	  height:100px; 
+	  width:130px;
+	  display:block;  
+	  text-decoration:none; 
+	  text-align:center; 
+	  line-height:29px; 
+	  color:#00FF00
+  }
+  
+  .adManager{
+	  background:url(../images/adManager.gif) no-repeat; 
+	  height:100px; 
+	  width:130px;
+	  display:block;  
+	  text-decoration:none; 
+	  text-align:center; 
+	  line-height:29px; 
+	  color:#00FF00
+  }
+
+.adcCount{
+	  background:url(../images/adcCount.gif) no-repeat; 
+	  height:100px; 
+	  width:130px;
+	  display:block;  
+	  text-decoration:none; 
+	  text-align:center; 
+	  line-height:29px; 
+	  color:#00FF00
+  }

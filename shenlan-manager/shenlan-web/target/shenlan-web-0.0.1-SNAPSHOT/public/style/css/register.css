@@ -1,0 +1,81 @@
+.mainpage{
+	width:611px;
+	height:400px;
+	padding-top:50px;
+	}
+.new_item{
+	float: left;
+	height: 48px;
+	width: 610px;
+	}
+.tit{
+   color:#333333;
+   float: left;
+   font-size: 15px;
+   height: 48px;
+   line-height: 34px;
+   width: 78px;
+}
+
+.bdmain{
+	float: left;
+	height: 48px;
+	width: 210px;
+	line-height: 34px;
+	
+	}
+.base_info{
+	width: 200px; 
+	height: 32px; 
+	vertical-align:middle;
+	font:14px/32px Arial, Helvetica, sans-serif; 
+	line-height:32px; 
+	padding-left:5px; 
+	border:1px #67afcd solid;
+	}
+.password{
+	width: 200px; 
+	height: 32px; 
+	vertical-align:middle;
+	font:14px/32px Arial, Helvetica, sans-serif; 
+	line-height:32px; 
+	padding-left:5px; 
+	border:1px #67afcd solid;
+	}
+.new_plus{ float:left; font-size: 13px;line-height:34px; color:#333333;}
+.errormess{ color:#ff0000;}
+.errormess span{ display:block; float:left;}
+.erroricon img{ margin-top:9px;}
+.errorbox{ padding-left:5px;}
+.erroricon1 img{ margin-top:16px;}
+.recIconText{ line-height:24px; height:24px; color:#ff0000; padding-left:5px;}
+
+.rightbox img{ margin-top:9px;}
+.rightbox1 img{ margin-top:16px;}
+.lineheight46{ line-height:46px;width:100px;}
+.height40{ height:40px;}
+.height63{ height:63px;}
+.line63{ line-height:63px;}
+.mar24 img{ margin-top:24px;}
+
+.recept{ width:610px; float:left; height:24px; padding:20px 0; font-size: 13px; }
+.recEmpt{ width:78px; float:left; height:24px; }
+.recBox{ width:300px; float:left; height:24px; line-height:24px; vertical-align:middle;}
+.recBox input{ vertical-align:middle;}
+.recIcon{width:160px; float:left; height:24px; }
+.recIcon span{ display:block; float:left;}
+.recIcon img{ margin-top:4px;}
+.recBox a{ color:#67afcd;}
+.recBox a:hover{ color:#017bae;}
+
+.receptbutt{ float:left; width:610px;}
+.receptbutt a{ background:url(../images/loginbutt.gif) no-repeat; height:55px; width:166px; display:block; margin:0 0 0 78px;}
+.receptbutt a:hover{ background:url(../images/loginbutt.gif) no-repeat;}
+
+
+	
+
+
+
+
+

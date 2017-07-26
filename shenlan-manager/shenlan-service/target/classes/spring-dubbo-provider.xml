@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+       <dubbo:application name="dubbo-provider"/>
+
+       <!--<dubbo:registry  id="myzk" address="zookeeper://127.0.0.1:2181" check="false"/>-->
+       <!--<dubbo:monitor  protocol="registry"/>-->
+       <dubbo:registry  id="myzk" address="zookeeper://123.56.246.177:2181" check="false"/>
+       <dubbo:monitor  protocol="registry" address="123.56.246.177:7070"/>
+       <dubbo:protocol id="mybubbo" name="dubbo" port="20880"/>
+       <dubbo:provider registry="myzk" protocol="mybubbo"/>
+
+       
+       <dubbo:service interface="com.shenlan.api.system.ISystemUserService" ref="systemUserService"/>
+       <dubbo:service interface="com.shenlan.api.system.ISystemRoleService" ref="systemRoleService"/>
+       <dubbo:service interface="com.shenlan.api.system.ISystemMenuService" ref="systemMenuService"/>
+       <dubbo:service interface="com.shenlan.api.system.ISystemDictInfoService" ref="systemDictInfoService"/>
+       <dubbo:service interface="com.shenlan.api.userCenter.IUserCenterService" ref="userCenterService"/>
+       <!--<dubbo:service interface="com.easto.api.integralCenter.IIntegralTaskService" ref="integralTaskService"/>-->
+       <!--<dubbo:service interface="com.easto.api.integralCenter.IIntegralExchRuleService" ref="integralExchRuleService"/>-->
+       <!--<dubbo:service interface="com.easto.api.integralCenter.IIntegralRecordService" ref="integralRecordService"/>-->
+       <!--<dubbo:service interface="com.easto.api.contentManage.IEastoResService" ref="eastoResService"/>-->
+       <!--<dubbo:service interface="com.easto.api.contentManage.IEastoGameService" ref="eastoGameService"/>-->
+       <!--&lt;!&ndash;<dubbo:service interface="com.easto.api.contentManage.IEastoResPubService" ref="eastoResPubService"/>&ndash;&gt;-->
+       <!--<dubbo:service interface="com.easto.api.contentManage.IEastoAirlineResService" ref="eastoAirlineResService"/>-->
+       <!--<dubbo:service interface="com.easto.api.contentManage.IEastoCpManageService" ref="eastoCpManageService"/>-->
+       <!--<dubbo:service interface="com.easto.api.contentManage.IEastoResDeviceService" ref="eastoResDeviceService"/>-->
+       <!--<dubbo:service interface="com.easto.api.advertisingManage.IEastoAdService" ref="eastoAdService"/>-->
+       <!--<dubbo:service interface="com.easto.api.advertisingManage.IEastoAdPositionService" ref="eastoAdPositionService"/>-->
+       <!--<dubbo:service interface="com.easto.api.advertisingManage.IEastoAdOwnerService" ref="eastoAdOwnerService"/>-->
+       <!--<dubbo:service interface="com.easto.api.advertisingManage.IEastoPrizeService" ref="eastoPrizeService"/>-->
+       <!--<dubbo:service interface="com.easto.api.advertisingManage.IEastoAdResourceService" ref="eastoAdResourceService"/>-->
+       <!--<dubbo:service interface="com.easto.api.deviceManage.IEastoAirlineService" ref="eastoAirlineService"/>-->
+       <!--<dubbo:service interface="com.easto.api.deviceManage.IEastoDeviceService" ref="eastoDeviceService"/>-->
+       <!--<dubbo:service interface="com.easto.api.activeManage.IEastoCampaignService" ref="eastoCampaignService"/>-->
+
+</beans>

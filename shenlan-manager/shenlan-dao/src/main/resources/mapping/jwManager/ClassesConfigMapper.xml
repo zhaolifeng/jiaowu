@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwClassesConfigDao" >
+  
+  <sql id="Base_Column_List" >
+      id ,class_date,class_time,classroom_id,teacher_id,classes_id,start_time,end_time,create_time,update_time
+  </sql>
+
+  <insert id="addClassesConfig" parameterType="com.shenlan.domain.bo.JwClassesConfigure" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_classes_configure(class_date,class_time,classroom_id,teacher_id,classes_id,start_time,end_time,create_time,update_time)
+	 VALUES (#{classDate},#{classTime},#{classRoomId},#{teacherId},#{classesId},#{startTime},#{endTime},now(),now())
+  </insert>
+
+  <select id="findClassesConfig"  resultType="com.shenlan.domain.bo.JwClassesConfigure" parameterType="com.shenlan.domain.bo.JwClassesConfigure" >
+    SELECT
+    class_date,class_time,classroom_id,teacher_id,classes_id,start_time,end_time
+    FROM jw_classes_configure
+    WHERE 1=1
+
+    <if test='classesId != null'>
+      and classes_id=#{classesId}
+    </if>
+
+    <if test='classDate != null and classDate=="0"'>
+     and class_date  in (0,1,2,3,4,5,6,7)
+    </if>
+
+    <if test='classDate != null and classDate !="0"'>
+      and class_date  in (0,#{classDate})
+    </if>
+
+    <if test="classTime != null">
+      and class_time = #{classTime}
+    </if>
+
+    <if test="startTime != null and endTime != null">
+      and(
+          (
+          DATE_FORMAT(start_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+          and DATE_FORMAT(start_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+          )
+          or
+          (
+          DATE_FORMAT(start_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+          and DATE_FORMAT(end_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+          )
+          or
+          (
+          DATE_FORMAT(end_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+          and DATE_FORMAT(end_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+          )
+      )
+
+    </if>
+
+  </select>
+</mapper>

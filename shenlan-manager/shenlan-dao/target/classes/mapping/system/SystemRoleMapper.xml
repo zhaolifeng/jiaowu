@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.system.SystemRoleDao" >
+  
+  <sql id="Base_Column_List" >
+    id, name, role_level, role_no, create_time, is_valid, update_time
+  </sql>
+  
+  <select id="checkSystemRoleByName" resultType="SystemRole" parameterType="String">
+	 SELECT 
+	    <include refid="Base_Column_List" />
+	 FROM SYSTEM_Role
+	 WHERE 1 = 1
+        AND NAME = #{name}
+  </select>
+  
+   <select id="findAllRolesByUserId" resultType="SystemRole" parameterType="Long">
+	   SELECT 
+		 r.*
+		 FROM SYSTEM_User u
+		 left join SYSTEM_Role_user ru
+		 on u.id = ru.user_id
+		 LEFT JOIN SYSTEM_Role r
+		 on  r.id = ru.role_id 
+	 where u.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="addSystemRole" parameterType="SystemRole" useGeneratedKeys="true" keyProperty="id">
+      insert into system_role (name, role_level, 
+	      role_no, is_valid, create_time, 
+	      update_time)
+	    values ( #{name,jdbcType=VARCHAR}, #{roleLevel,jdbcType=INTEGER}, 
+	      #{roleNo,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER}, now(), 
+	      now())
+  </insert>
+  
+    <delete id="deleteSystemRole" parameterType="Long" >
+	    delete from system_role
+		  where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="updateSystemRole" parameterType="SystemRole" >
+	 	update system_role
+	    <set >
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="roleLevel != null" >
+	        role_level = #{roleLevel,jdbcType=INTEGER},
+	      </if>
+	      <if test="roleNo != null" >
+	        role_no = #{roleNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isValid != null" >
+	        is_valid = #{isValid,jdbcType=INTEGER},
+	      </if>
+	      <if test="createTime != null" >
+	        create_time = #{createTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updateTime != null" >
+	        update_time = now(),
+	      </if>
+	    </set>
+	    where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+     <select id="getAllRoles" resultType="SystemRole">
+		 SELECT 
+			<include refid="Base_Column_List" />
+		 FROM system_role 
+		 where is_valid = 1
+	  </select>
+	  
+	   <select id="selectById" resultType="SystemRole" parameterType="Long">
+		 SELECT 
+			<include refid="Base_Column_List" />
+		 FROM system_role 
+		 where id = #{id,jdbcType=INTEGER}
+	  </select>
+	  
+	  <select id="querySystemRoleByName" resultType="SystemRole" parameterType="SystemRole">
+		 SELECT 
+		    <include refid="Base_Column_List" />
+		 FROM SYSTEM_role
+		 WHERE 1 = 1
+		  <if test="name != null and name != '' " >
+			  and name like CONCAT('%',#{name},'%')
+		  </if>
+		  order by id asc
+
+ 	 </select>
+ 	 
+ 	  <select id="checkRoleUser" resultType="SystemUser" parameterType="SystemRole">
+		 SELECT 
+		    DISTINCT u.*
+		 FROM SYSTEM_USER u
+		 left join system_role_user ru 
+		 on u.id = ru.user_id
+		 WHERE ru.role_id  = #{id,jdbcType=INTEGER}
+		 order by u.id 
+	  </select>
+</mapper>

@@ -1,0 +1,143 @@
+.mainArea{
+	width:99%;
+	border: 1px #E1E1E1 solid;
+	border-top: 1px #FFFFFF solid;
+	height: 475px;
+	text-align: left;
+	}
+.tabHead{
+	float: left;
+	width: 100px;
+	height: 36px;
+	vertical-align: middle;
+	background: url(../images/tab1.gif) no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 10px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+	}
+.tabHead a{
+	text-decoration: none;
+}
+.tabHead a:HOVER{
+	text-decoration: none;
+}
+.tabBody{
+	float:left;
+	cursor: pointer;
+	width: 100px;
+	height: 36px;
+	background: url(../images/tab3.gif) no-repeat;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 10px;
+	font-size: 15px;
+	}
+	
+.tabBody a{
+	text-decoration: none;
+}
+.tabBody a:HOVER{
+	text-decoration: none;
+}
+
+.tabEnd{
+	float:left;
+	width:80%;
+	border-bottom:1px #E1E1E1 solid;
+	border-right:1px  #FFFFFF solid;
+	height: 35px;
+	cursor: pointer;
+	text-align: center;
+	}
+	
+.adcNav{
+	margin-top: 10px;
+	margin-left:90px;
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adcList.gif) no-repeat;
+	
+	}
+    .adnav1{
+	margin-top: 10px;
+	margin-left:90px;
+	
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adnav1.gif) no-repeat;
+	
+	}
+	.adnav2{
+	margin-top: 10px;
+	margin-left:90px;
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adnav2.gif) no-repeat;
+	
+	}
+	
+	.adnav3{
+	margin-top: 10px;
+	margin-left:90px;
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adnav3.gif) no-repeat;
+	
+	}
+	
+	.adnav4{
+	margin-top: 10px;
+	margin-left:90px;
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adnav4.gif) no-repeat;
+	}
+	
+	.adnav5{
+	margin-top: 10px;
+	margin-left:90px;
+	height: 35px;
+	width:708px;
+	vertical-align: middle;
+	padding-top:12px;
+	background: url(../images/adnav5.gif) no-repeat;
+	}
+	
+	
+    .addShop{
+    height: 45px;
+	width:111px;
+	border:none;
+	vertical-align: middle;
+	overflow:hidden;
+	background: url(../images/addShop.gif) no-repeat;
+    
+    }
+
+.addTarge{
+    height: 46px;
+	width:83px;
+	border:none;
+	vertical-align: middle;
+	overflow:hidden;
+	background: url(../images/addTarge.gif) no-repeat;
+    
+    }
+
+
+
+
+

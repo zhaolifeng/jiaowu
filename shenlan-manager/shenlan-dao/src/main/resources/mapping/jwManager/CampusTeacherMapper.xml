@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwCampusTeacherDao" >
+  <sql id="Base_Column_List" >
+      id,campus_id,teacher_id
+  </sql>
+
+  <insert id="addBatchCampusTeacher" parameterType="java.util.List">
+  INSERT INTO jw_campus_teacher (campus_id,teacher_id,update_time,create_time)
+  VALUES
+  <foreach collection="list" item="item" index="index" separator="," >
+    (#{item.campusId},#{item.teacherId},now(),now())
+  </foreach>
+  </insert>
+
+  <delete id="deletBatchCampusTeacher"  parameterType="java.lang.Long">
+    DELETE FROM jw_campus_teacher  WHERE campus_id = #{item.campusId}
+  </delete>
+
+
+
+  <select id="findCampusTeacher" resultType="java.lang.String" parameterType="java.lang.Long">
+    SELECT  teacher_id from jw_campus_teacher where campus_id= #{campusId}
+  </select>
+</mapper>

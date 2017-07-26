@@ -1,0 +1,45 @@
+.itemList{
+margin:60px 140px;
+width: 250px;
+}
+.item{
+float: left;
+height: 48px;
+width: 400px;
+}
+
+
+
+.item div{
+float: left;
+height: 48px;
+padding-top: 3px;
+}
+.tijiao{
+width: 150px;
+}
+.baseInput{
+ vertical-align: middle;
+ height: 30px;
+ width: 180px;
+ border: 1px solid #3cc;
+ font:15px/34px Arial, Helvetica, sans-serif; 
+
+}
+
+.tijiaoButton{
+ width: 155px;
+ height: 57px;
+ background: url(../images/tijiaoButton.gif) no-repeat;
+ display:block; 
+ margin:0 0 0 78px;
+}
+
+.button{
+ width: 155px;
+ height: 57px;
+ background: url(../images/tijiaoButton.gif) no-repeat;
+ margin:0 0 0 78px;
+ border: 0px;
+
+}

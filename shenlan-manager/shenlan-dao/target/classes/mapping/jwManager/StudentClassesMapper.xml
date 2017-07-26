@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.jwManager.JwStudentClassesDao" >
+  <sql id="Base_Column_List" >
+      id ,classes_id,student_id,cost,pay_status,operator,attendance_count,update_time,create_time
+  </sql>
+  <insert id="addStudentClasses" parameterType="com.shenlan.domain.bo.JwStudentClass" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO jw_student_classe(classes_id,student_id,cost,pay_status,operator,attendance_count,update_time,create_time)
+	 VALUES(#{classesId},#{studentId},#{cost},#{payStatus},#{operator},#{attendanceCount},now(),now())
+  </insert>
+
+  <select id="findStudentClasses" parameterType="com.shenlan.domain.bo.JwStudentClass" resultType="com.shenlan.domain.bo.JwStudentClass">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM jw_student_classe
+        WHERE
+        <if test="classesId !=null">
+            classes_id=#{classesId}
+        </if>
+
+      <if test="studentId !=null">
+          student_id=#{studentId}
+      </if>
+
+      <if test="payStatus !=null">
+          pay_status=#{payStatus}
+      </if>
+  </select>
+
+    <select id="getStudentClassesById" parameterType="com.shenlan.domain.bo.JwStudentClass" resultType="com.shenlan.domain.bo.JwStudentClass">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM jw_student_classe
+        WHERE id=#{id}
+    </select>
+
+    <update id="updateStudentClasses" parameterType="com.shenlan.domain.bo.JwStudentClass">
+        UPDATE jw_student_classe
+        SET
+        <if test="cost !=0">
+            cost=#{cost},pay_status=#{payStatus},operator=#{operator}
+        </if>
+        WHERE  id=#{id}
+    </update>
+
+    <update id="updateStudentClassesCheckIn" parameterType="com.shenlan.domain.bo.JwStudentClass">
+        UPDATE jw_student_classe
+        SET
+        <if test="attendanceCount !=0">
+            attendance_count=#{attendanceCount}
+        </if>
+        WHERE  id=#{id}
+    </update>
+
+    <select id="findStudentClassesBycondtion" parameterType="java.util.Map" resultType="com.shenlan.domain.bo.JwStudentClass">
+            SELECT
+            <include refid="Base_Column_List" />
+            FROM jw_student_classe
+            WHERE 1=1
+            <if test='classesId != null'>
+                AND classes_id=#{classesId}
+            </if>
+
+            <if test='studentIds != null'>
+                AND student_id in
+                <foreach collection="studentIds" item="studentId" index="index" open="(" separator="," close=")">
+                    #{studentId}
+                </foreach>
+            </if>
+
+            <if test='payStatus != null'>
+                AND pay_status=#{payStatus}
+            </if>
+    </select>
+
+</mapper>

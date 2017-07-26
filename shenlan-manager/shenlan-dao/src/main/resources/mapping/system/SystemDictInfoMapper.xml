@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenlan.dao.system.SystemDictInfoDao" >
+  
+  <sql id="Base_Column_List" >
+    id, code, pcode, dict_type, level, name, sort, rmk, is_valid, create_time, update_time
+  </sql>
+  
+  <select id="getDictValue" resultType="java.util.Map" parameterType="String">
+	 SELECT 
+		 <include refid="Base_Column_List" />
+	 FROM SYSTEM_DICT_INFO
+	 WHERE DICT_TYPE=#{dictType}
+	       and is_valid=1
+  </select>
+  
+  <!-- <select id="getChildDictValue" resultType="SystemDictInfo" parameterType="SystemDictInfo">
+	 SELECT 
+		 <include refid="Base_Column_List" />
+	 FROM SYSTEM_DICT_INFO
+	 WHERE DICT_TYPE=#{dictType}
+	 	AND pcode=#{pcode}
+  </select> -->
+  
+  <select id="getChildDictValue" resultType="java.util.Map" parameterType="String">
+	 SELECT 
+		 <include refid="Base_Column_List" />
+	 FROM SYSTEM_DICT_INFO
+	 WHERE pcode=#{channelType}
+	  and is_valid=1
+  </select>
+  
+  <!-- 根据字典code获取name -->
+  <select id="getDictNameByCode" resultType="String" parameterType="String">
+	 SELECT NAME
+	 FROM SYSTEM_DICT_INFO
+	 WHERE CODE=#{code}
+	 and is_valid=1
+  </select>
+
+	<!-- 根据字典code获取name -->
+	<select id="getDictNameByCodeAndChannel" resultType="String" parameterType="SystemDictInfo">
+		SELECT NAME
+		FROM SYSTEM_DICT_INFO
+		WHERE CODE=#{code}
+		and dict_type=#{dictType}
+		and is_valid=1
+	</select>
+</mapper>
